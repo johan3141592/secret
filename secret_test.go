@@ -35,7 +35,7 @@ func TestRedact(t *testing.T) {
 	r1 := Redact(v1)
 
 	if !reflect.DeepEqual(r1, v1) {
-		t.Fatalf("Invalid result: %v", r1)
+		t.Fatalf("invalid result: %v", r1)
 	}
 
 	v2 := struct {
@@ -48,6 +48,28 @@ func TestRedact(t *testing.T) {
 		F1 String
 		F2 []int
 	}{F1: "REDACTED", F2: []int{1, 2}}) {
-		t.Fatalf("Invalid result: %v", r2)
+		t.Fatalf("invalid result: %v", r2)
+	}
+}
+
+func TestRedactWithAny(t *testing.T) {
+	v1 := struct {
+		F any
+	}{F: "str"}
+	r1 := Redact(v1)
+
+	if !reflect.DeepEqual(r1, v1) {
+		t.Fatalf("invalid result: %v", r1)
+	}
+
+	v2 := struct {
+		F any
+	}{F: String("str")}
+	r2 := Redact(v2)
+
+	if !reflect.DeepEqual(r2, struct {
+		F any
+	}{F: String("REDACTED")}) {
+		t.Fatalf("invalid result: %v", r2)
 	}
 }

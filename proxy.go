@@ -47,6 +47,17 @@ func proxyArray(value reflect.Value, options *redactOptions) reflect.Value {
 	return pv
 }
 
+func proxyInterface(value reflect.Value, options *redactOptions) reflect.Value {
+	if options.debugMode {
+		log.Printf("[DEBUG] Proxy interface %s", value.Type())
+	}
+
+	pv := reflect.New(value.Type()).Elem()
+	pv.Set(proxyValue(value.Elem(), options))
+
+	return pv
+}
+
 func proxyMap(value reflect.Value, options *redactOptions) reflect.Value {
 	if options.debugMode {
 		log.Printf("[DEBUG] Proxy map %s", value.Type())
@@ -103,6 +114,8 @@ func proxyValue(value reflect.Value, options *redactOptions) reflect.Value {
 	switch value.Kind() {
 	case reflect.Array:
 		return proxyArray(value, options)
+	case reflect.Interface:
+		return proxyInterface(value, options)
 	case reflect.Map:
 		return proxyMap(value, options)
 	case reflect.Ptr:

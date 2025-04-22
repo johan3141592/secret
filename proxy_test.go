@@ -36,7 +36,7 @@ func TestProxyArray(t *testing.T) {
 	r := proxyArray(reflect.ValueOf(v), options)
 
 	if !reflect.DeepEqual(r.Interface(), v) {
-		t.Fatalf("Invalid result: %v", r)
+		t.Fatalf("invalid result: %v", r)
 	}
 }
 
@@ -45,7 +45,7 @@ func TestProxyArrayWithRedaction(t *testing.T) {
 	r := proxyArray(reflect.ValueOf(v), options)
 
 	if !reflect.DeepEqual(r.Interface(), [2]String{"R", "R"}) {
-		t.Fatalf("Invalid result: %v", r.Interface())
+		t.Fatalf("invalid result: %v", r.Interface())
 	}
 }
 
@@ -54,14 +54,14 @@ func TestProxyMap(t *testing.T) {
 	r1 := proxyMap(reflect.ValueOf(v1), options)
 
 	if !reflect.DeepEqual(r1.Interface(), v1) {
-		t.Fatalf("Invalid result: %v", r1)
+		t.Fatalf("invalid result: %v", r1)
 	}
 
 	v2 := map[string]int{"str1": 1, "str2": 2}
 	r2 := proxyMap(reflect.ValueOf(v2), options)
 
 	if !reflect.DeepEqual(r2.Interface(), v2) {
-		t.Fatalf("Invalid result: %v", r2)
+		t.Fatalf("invalid result: %v", r2)
 	}
 }
 
@@ -70,14 +70,14 @@ func TestProxyMapWithRedaction(t *testing.T) {
 	r1 := proxyMap(reflect.ValueOf(v1), options)
 
 	if !reflect.DeepEqual(r1.Interface(), map[int]String{1: "R", 2: "R"}) {
-		t.Fatalf("Invalid result: %v", r1.Interface())
+		t.Fatalf("invalid result: %v", r1.Interface())
 	}
 
 	v2 := map[String]int{"str1": 1, "str2": 2}
 	r2 := proxyMap(reflect.ValueOf(v2), options)
 
 	if !reflect.DeepEqual(r2.Interface(), map[String]int{"R": 2}) {
-		t.Fatalf("Invalid result: %v", r2.Interface())
+		t.Fatalf("invalid result: %v", r2.Interface())
 	}
 }
 
@@ -86,7 +86,7 @@ func TestProxyPointer(t *testing.T) {
 	r := proxyPointer(reflect.ValueOf(&v), options)
 
 	if p := r.Interface().(*string); *p != v {
-		t.Fatalf("Invalid result: %v", *p)
+		t.Fatalf("invalid result: %v", *p)
 	}
 }
 
@@ -95,7 +95,7 @@ func TestProxyPointerWithRedaction(t *testing.T) {
 	r := proxyPointer(reflect.ValueOf(&v), options)
 
 	if p := r.Interface().(*String); *p == v {
-		t.Fatalf("Invalid result: %v", *p)
+		t.Fatalf("invalid result: %v", *p)
 	}
 }
 
@@ -104,7 +104,7 @@ func TestProxySlice(t *testing.T) {
 	r := proxySlice(reflect.ValueOf(v), options)
 
 	if !reflect.DeepEqual(r.Interface(), v) {
-		t.Fatalf("Invalid result: %v", r)
+		t.Fatalf("invalid result: %v", r)
 	}
 }
 
@@ -113,7 +113,7 @@ func TestProxySliceWithRedaction(t *testing.T) {
 	r := proxySlice(reflect.ValueOf(v), options)
 
 	if !reflect.DeepEqual(r.Interface(), []String{"R", "R"}) {
-		t.Fatalf("Invalid result: %v", r.Interface())
+		t.Fatalf("invalid result: %v", r.Interface())
 	}
 }
 
@@ -125,7 +125,7 @@ func TestProxyStruct(t *testing.T) {
 	r := proxyStruct(reflect.ValueOf(v), options)
 
 	if !reflect.DeepEqual(r.Interface(), v) {
-		t.Fatalf("Invalid result: %v", r)
+		t.Fatalf("invalid result: %v", r)
 	}
 }
 
@@ -140,7 +140,7 @@ func TestProxyStructWithRedaction(t *testing.T) {
 		F1 String
 		F2 string
 	}{F1: "R", F2: "str2"}) {
-		t.Fatalf("Invalid result: %v", r.Interface())
+		t.Fatalf("invalid result: %v", r.Interface())
 	}
 }
 
@@ -149,21 +149,21 @@ func TestProxyValue(t *testing.T) {
 	r1 := proxyValue(reflect.ValueOf(v1), options)
 
 	if r1.Interface().(string) != v1 {
-		t.Fatalf("Invalid result: %v", r1)
+		t.Fatalf("invalid result: %v", r1)
 	}
 
 	v2 := 1
 	r2 := proxyValue(reflect.ValueOf(v2), options)
 
 	if r2.Interface().(int) != v2 {
-		t.Fatalf("Invalid result: %v", r2)
+		t.Fatalf("invalid result: %v", r2)
 	}
 
 	v3 := 2.0
 	r3 := proxyValue(reflect.ValueOf(v3), options)
 
 	if r3.Interface().(float64) != v3 {
-		t.Fatalf("Invalid result: %v", r3)
+		t.Fatalf("invalid result: %v", r3)
 	}
 }
 
@@ -172,6 +172,6 @@ func TestProxyValueWithRedaction(t *testing.T) {
 	r := proxyValue(reflect.ValueOf(v), options)
 
 	if r.Interface().(String) != "R" {
-		t.Fatalf("Invalid result: %v", r)
+		t.Fatalf("invalid result: %v", r)
 	}
 }
