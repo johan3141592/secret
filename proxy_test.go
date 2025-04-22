@@ -49,6 +49,30 @@ func TestProxyArrayWithRedaction(t *testing.T) {
 	}
 }
 
+func TestProxyInterface(t *testing.T) {
+	v := struct {
+		F any
+	}{F: "str"}
+	r := proxyStruct(reflect.ValueOf(v), options)
+
+	if !reflect.DeepEqual(r.Interface(), v) {
+		t.Fatalf("invalid result: %v", r)
+	}
+}
+
+func TestProxyWithRedaction(t *testing.T) {
+	v := struct {
+		F any
+	}{F: String("str")}
+	r := proxyStruct(reflect.ValueOf(v), options)
+
+	if !reflect.DeepEqual(r.Interface(), struct {
+		F any
+	}{F: String("R")}) {
+		t.Fatalf("invalid result: %v", r)
+	}
+}
+
 func TestProxyMap(t *testing.T) {
 	v1 := map[int]string{1: "str1", 2: "str2"}
 	r1 := proxyMap(reflect.ValueOf(v1), options)
